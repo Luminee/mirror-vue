@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@theme {
+    --color-primary: #9B51E0;
+    --color-primary-m: #903DDE;
+}
+
+@layer components {
+    .transition-ease-200 {
+        @apply transition ease-in-out duration-200
+    }
+}
