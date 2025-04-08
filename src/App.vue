@@ -7,8 +7,6 @@ import Overlay from "@/components/CommandSidebar/Overlay.vue";
 import CommandOutput from "@/components/CommandOutput.vue";
 import Console from "@/components/Console.vue";
 
-let url = 'http://local.manage.wxzxzj.com/~mirror'
-
 const proxy = getCurrentInstance()
 const axios = proxy.appContext.config.globalProperties.$axios
 
