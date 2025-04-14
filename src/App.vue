@@ -1,5 +1,5 @@
 <script setup>
-import {ref, onMounted, getCurrentInstance, computed} from "vue";
+import {ref, onMounted, computed} from "vue";
 import TopBar from "@/components/TopBar.vue";
 import Group from "@/components/Group.vue";
 import CommandSidebar from "@/components/CommandSidebar.vue";
@@ -7,8 +7,9 @@ import Overlay from "@/components/CommandSidebar/Overlay.vue";
 import CommandOutput from "@/components/CommandOutput.vue";
 import Console from "@/components/Console.vue";
 
-const proxy = getCurrentInstance()
-const axios = proxy.appContext.config.globalProperties.$axios
+import {useAxiosStore} from "@/stores/useAxiosStore.js";
+
+const axiosStore = useAxiosStore()
 
 const groups = ref({})
 const loading = ref(false)
@@ -31,7 +32,7 @@ function onSelect(command) {
 function runCommand(command, formData) {
   loading.value = true
 
-  axios.post(url + '/' + command.name, formData)
+  axiosStore.post(url + '/' + command.name, formData)
       .then((response) => {
         output.value.push({
           formData: formData,
@@ -43,7 +44,7 @@ function runCommand(command, formData) {
       })
       .catch((err) => {
         selectedCommand.value = command;
-        let data = err.response.data;
+        let data = err.response;
 
         if (data.errors) {
           errors.value = data.errors;
@@ -75,7 +76,7 @@ function onHideTerminal() {
 onMounted(() => {
   loading.value = true
 
-  axios.get(url)
+  axiosStore.get(url)
       .then((response) => {
         groups.value = response.data
       })
